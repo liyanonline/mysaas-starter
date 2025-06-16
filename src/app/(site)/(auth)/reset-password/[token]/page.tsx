@@ -5,11 +5,11 @@ import { SessionProvider } from 'next-auth/react'; // or wherever you're getting
 
 import ResetPassword from "@/components/Auth/ResetPassword";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Reset Password | Play SaaS Starter Kit and Boilerplate for Next.js",
-};
+// export const metadata: Metadata = {
+//   title: "Reset Password | Play SaaS Starter Kit and Boilerplate for Next.js",
+// };
 
 export default async function ResetPasswordPage({
   params,
