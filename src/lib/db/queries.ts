@@ -39,7 +39,10 @@ import { verifyToken } from '@/lib/auth/session';
 import type { User } from './schema';
 
 export async function getUser(): Promise<User | null> {
-  const sessionCookie = cookies().get('session');
+  // const sessionCookie = cookies().get('session');
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get('session');
+
   if (!sessionCookie?.value) return null;
 
   const sessionData = await verifyToken(sessionCookie.value);
