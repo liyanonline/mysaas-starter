@@ -4,37 +4,65 @@ import { activityLogs, teamMembers, teams, users } from './schema';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth/session';
 
-export async function getUser() {
-  const sessionCookie = (await cookies()).get('session');
-  if (!sessionCookie || !sessionCookie.value) {
-    return null;
-  }
+// export async function getUser() {
+//   const sessionCookie = (await cookies()).get('session');
+//   if (!sessionCookie || !sessionCookie.value) {
+//     return null;
+//   }
+
+//   const sessionData = await verifyToken(sessionCookie.value);
+//   if (
+//     !sessionData ||
+//     !sessionData.user ||
+//     typeof sessionData.user.id !== 'number'
+//   ) {
+//     return null;
+//   }
+
+//   if (new Date(sessionData.expires) < new Date()) {
+//     return null;
+//   }
+
+//   const user = await db
+//     .select()
+//     .from(users)
+//     .where(and(eq(users.id, sessionData.user.id), isNull(users.deletedAt)))
+//     .limit(1);
+
+//   if (user.length === 0) {
+//     return null;
+//   }
+
+//   return user[0];
+// }
+
+import type { User } from './schema';
+
+export async function getUser(): Promise<User | null> {
+  const sessionCookie = cookies().get('session');
+  if (!sessionCookie?.value) return null;
 
   const sessionData = await verifyToken(sessionCookie.value);
   if (
     !sessionData ||
     !sessionData.user ||
-    typeof sessionData.user.id !== 'number'
+    typeof sessionData.user.id !== 'number' ||
+    new Date(sessionData.expires) < new Date()
   ) {
     return null;
   }
 
-  if (new Date(sessionData.expires) < new Date()) {
-    return null;
-  }
-
-  const user = await db
+  const [user] = await db
     .select()
     .from(users)
     .where(and(eq(users.id, sessionData.user.id), isNull(users.deletedAt)))
     .limit(1);
 
-  if (user.length === 0) {
-    return null;
-  }
-
-  return user[0];
+  return user ?? null;
 }
+
+
+
 
 export async function getTeamByStripeCustomerId(customerId: string) {
   const result = await db
@@ -64,7 +92,26 @@ export async function updateTeamSubscription(
     .where(eq(teams.id, teamId));
 }
 
-export async function getUserWithTeam(userId: number) {
+// export async function getUserWithTeam(userId: number) {
+//   const result = await db
+//     .select({
+//       user: users,
+//       teamId: teamMembers.teamId
+//     })
+//     .from(users)
+//     .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
+//     .where(eq(users.id, userId))
+//     .limit(1);
+
+//   return result[0];
+// }
+
+type UserWithTeam = {
+  user: typeof users.$inferSelect;
+  teamId: number | null;
+};
+
+export async function getUserWithTeam(userId: number): Promise<UserWithTeam | null> {
   const result = await db
     .select({
       user: users,
@@ -75,12 +122,15 @@ export async function getUserWithTeam(userId: number) {
     .where(eq(users.id, userId))
     .limit(1);
 
-  return result[0];
+  return result[0] ?? null;
 }
+
+
 
 export async function getActivityLogs() {
   const user = await getUser();
   if (!user) {
+    // redirect('/sign-in') // if in a page context
     throw new Error('User not authenticated');
   }
 
