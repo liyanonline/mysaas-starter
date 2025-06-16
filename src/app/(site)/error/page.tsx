@@ -1,3 +1,7 @@
+'use client';
+
+import { SessionProvider } from "next-auth/react";
+
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import NotFound from "@/components/NotFound";
 import { Metadata } from "next";
