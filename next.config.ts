@@ -2,7 +2,9 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   experimental: {
-    ppr: true
+    ppr: false, // Disable Partial Prerendering 
+    nodeMiddleware: true,
+    clientSegmentCache: true,
   }
 };
 
