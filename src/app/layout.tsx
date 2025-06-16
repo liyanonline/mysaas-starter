@@ -14,11 +14,13 @@ import { ThemeProvider } from "next-themes";
 import ToasterContext from "./api/contex/ToasetContex";
 
 
-
-export const metadata: Metadata = {
-  title: 'Next.js SaaS Starter',
-  description: 'Get started quickly with Next.js, Postgres, and Stripe.'
-};
+// Error:   x You are attempting to export "metadata" from a component 
+// marked with "use client", which is disallowed.
+// This is because metadata can only be exported from server components.
+// export const metadata: Metadata = {
+//   title: 'Next.js SaaS Starter',
+//   description: 'Get started quickly with Next.js, Postgres, and Stripe.'
+// };
 
 export const viewport: Viewport = {
   maximumScale: 1
