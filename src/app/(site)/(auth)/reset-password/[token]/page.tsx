@@ -1,3 +1,8 @@
+'use client';
+
+import { SessionProvider } from 'next-auth/react'; // or wherever you're getting it from
+
+
 import ResetPassword from "@/components/Auth/ResetPassword";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { Metadata } from "next";
