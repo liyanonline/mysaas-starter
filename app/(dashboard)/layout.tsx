@@ -87,14 +87,13 @@ function Header() {
           <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
         </Link>
 
-        <Link
-          href="/pricing"
-          className="text-sm font-medium text-gray-700 hover:text-gray-900"
-        >
-          Pricing
-        </Link>
-
         <div className="flex items-center space-x-4">
+          <Link
+            href="/pricing"
+            className="text-sm font-medium text-gray-700 hover:text-gray-900"
+          >
+            Pricing
+          </Link>
           <Suspense fallback={<div className="h-9" />}>
             <UserMenu />
           </Suspense>
