@@ -32,12 +32,12 @@ function UserMenu() {
   if (!user) {
     return (
       <>
-        <Link
+        {/* <Link
           href="/pricing"
           className="text-sm font-medium text-gray-700 hover:text-gray-900"
         >
           Pricing
-        </Link>
+        </Link> */}
         <Button asChild className="rounded-full">
           <Link href="/sign-up">Sign Up</Link>
         </Button>
@@ -78,6 +78,7 @@ function UserMenu() {
   );
 }
 
+
 function Header() {
   return (
     <header className="border-b border-gray-200">
@@ -87,11 +88,15 @@ function Header() {
           <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
         </Link>
 
-        <><Link
-          href="/pricing"
-          className="text-sm font-medium text-gray-700 hover:text-gray-900"
-        >Pricing
-        </Link></>
+        <a className="text-sm font-medium hover:underline underline-offset-4" href="#features">
+          Features
+        </a>
+        <a className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
+          Testimonials
+        </a>
+        <a className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
+          Pricing
+        </a>
 
         <div className="flex items-center space-x-4">
           <Suspense fallback={<div className="h-9" />}>
