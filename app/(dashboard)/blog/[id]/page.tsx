@@ -1,5 +1,6 @@
-import { getPostById } from '@/actions/blog';
-import { getUser } from '@/lib/auth';
+import { getPostById } from '@/app/actions/blog';
+// import { getUser } from '@/lib/auth';
+import { getUser } from '@/lib/db/queries';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
