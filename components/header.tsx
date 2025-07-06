@@ -6,6 +6,8 @@ import { getUser } from '@/lib/db/queries';
 import { Button } from '@/components/ui/button';
 import { User } from '@/lib/db/schema';
 import useSWR from 'swr';
+import { mutate } from 'swr';
+
 // import { use, useState, Suspense } from 'react';
 import React, { useEffect, useState, Suspense } from 'react';
 import { CircleIcon, Home, LogOut } from 'lucide-react';
@@ -32,8 +34,14 @@ function UserMenu() {
 
     if (!isMounted) return null; // wait for hydration
 
+    // async function handleSignOut() {
+    //     await signOut();
+    //     router.refresh();
+    //     router.push('/');
+    // }
     async function handleSignOut() {
         await signOut();
+        await mutate('/api/user'); // ✅ re-fetch user data
         router.refresh();
         router.push('/');
     }
@@ -120,55 +128,3 @@ export function Header() {
         </header>
     );
 }
-
-
-// function Header() {
-//     const { data: user } = useSWR<User>('/api/user', fetcher);
-//     return (
-//         <header className="border-b border-gray-200">
-//             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-//                 <Link href="/" className="flex items-center">
-//                     <CircleIcon className="h-6 w-6 text-orange-500" />
-//                     <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
-//                 </Link>
-
-//                 <nav className="flex space-x-4">
-//                     <Link href="/blog">Blog</Link>
-//                     {user ? (
-//                         <>
-//                             <Link href="/dashboard">Dashboard</Link>
-//                             <form action="/api/auth/sign-out" method="POST">
-//                                 <Button variant="outline">Sign Out</Button>
-//                             </form>
-//                         </>
-//                     ) : (
-//                         <>
-//                             <Link href="/sign-in">
-//                                 <Button variant="outline">Sign In</Button>
-//                             </Link>
-//                             <Link href="/sign-up">
-//                                 <Button>Sign Up</Button>
-//                             </Link>
-//                         </>
-//                     )}
-//                 </nav>
-
-//                 <a className="text-sm font-medium hover:underline underline-offset-4" href="#features">
-//                     Features
-//                 </a>
-//                 <a className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
-//                     Testimonials
-//                 </a>
-//                 <a className="text-sm font-medium hover:underline underline-offset-4" href="/pricing">
-//                     Pricing
-//                 </a>
-
-//                 <div className="flex items-center space-x-4">
-//                     <Suspense fallback={<div className="h-9" />}>
-//                         <UserMenu />
-//                     </Suspense>
-//                 </div>
-//             </div>
-//         </header>
-//     );
-// }

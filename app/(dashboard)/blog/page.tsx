@@ -14,9 +14,7 @@ export default async function BlogPage() {
     return (
         <div className="container mx-auto py-10">
             <h1 className="text-3xl font-bold mb-6">Blog</h1>
-            {/* <Link href="/blog/new">
-                <Button>Create New Post</Button>
-            </Link> */}
+
             {/* ✅ Show only if logged in */}
             {user && (
                 <Link href="/blog/new">
