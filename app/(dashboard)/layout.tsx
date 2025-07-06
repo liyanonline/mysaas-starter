@@ -17,7 +17,7 @@ import { signOut } from '@/app/(login)/actions';
 import { useRouter } from 'next/navigation';
 import { User } from '@/lib/db/schema';
 import useSWR from 'swr';
-import { Header } from '@/components/header';
+import { Header } from '@/components/Header';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

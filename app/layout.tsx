@@ -4,8 +4,8 @@ import { Manrope } from 'next/font/google';
 import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
 
-import { Header } from '@/components/header';
-
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: 'Next.js SaaS Starter',
@@ -74,7 +74,36 @@ const manrope = Manrope({ subsets: ['latin'] });
 //   );
 // }
 
-
+// function Footer() {
+//   return (
+//     <footer
+//       className="footer md:footer-horizontal p-10 gap-x-48 lg:gap-x-64 xl:gap-x-96 place-content-center text-base"
+//     >
+//       <nav>
+//         <span className="footer-title opacity-80">Explore</span>
+//         <a className="link link-hover mb-1" href="/">Overview</a>
+//         <a className="link link-hover my-1" href="/pricing">Pricing</a>
+//         <a className="link link-hover my-1" href="/blog">Blog</a>
+//         <a className="link link-hover my-1" href="/contact_us">Contact Us</a>
+//         <a
+//           className="link link-hover my-1"
+//           href="https://github.com/CriticalMoments/CMSaasStarter">Github</a
+//         >
+//       </nav>
+//       <aside>
+//         <span className="footer-title opacity-80">Sponsor</span>
+//         <a className="max-w-[260px]" href="https://getkiln.ai">
+//           <div className="font-bold text-3xl mb-1">Kiln AI</div>
+//           <div className="font-medium mb-3">Build High Quality AI Products</div>
+//           <div className="font-light">
+//             Use advanced AI tactics, and collaborate with your team. Free apps for
+//             Mac and Windows.
+//           </div>
+//           <div className="link text-sm font-bold mt-2">Learn More</div>
+//         </a>
+//       </aside>
+//     </footer>)
+// }
 
 export default function RootLayout({
   children
@@ -99,6 +128,8 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <Footer />
+
         </SWRConfig>
       </body>
     </html>
