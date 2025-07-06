@@ -4,16 +4,10 @@ import Link from 'next/link';
 // import { getUser } from '@/lib/auth';
 import { getUser } from '@/lib/db/queries';
 import { Button } from '@/components/ui/button';
-
 import { User } from '@/lib/db/schema';
 import useSWR from 'swr';
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-
 // import { use, useState, Suspense } from 'react';
 import React, { useEffect, useState, Suspense } from 'react';
-
 import { CircleIcon, Home, LogOut } from 'lucide-react';
 import {
     DropdownMenu,
@@ -25,6 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { signOut } from '@/app/(login)/actions';
 import { useRouter } from 'next/navigation';
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function UserMenu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -104,27 +99,7 @@ export function Header() {
                     <CircleIcon className="h-6 w-6 text-orange-500" />
                     <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
                 </Link>
-
-                <nav className="flex space-x-4">
-                    <Link href="/blog">Blog</Link>
-                    {user ? (
-                        <>
-                            <Link href="/dashboard">Dashboard</Link>
-                            <form action="/api/auth/sign-out" method="POST">
-                                <Button variant="outline">Sign Out</Button>
-                            </form>
-                        </>
-                    ) : (
-                        <>
-                            <Link href="/sign-in">
-                                <Button variant="outline">Sign In</Button>
-                            </Link>
-                            <Link href="/sign-up">
-                                <Button>Sign Up</Button>
-                            </Link>
-                        </>
-                    )}
-                </nav>
+                <Link href="/blog">Blog</Link>
 
                 <a className="text-sm font-medium hover:underline underline-offset-4" href="#features">
                     Features

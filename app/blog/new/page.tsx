@@ -1,19 +1,22 @@
 'use client';
 
 import { useActionState } from 'react';
-import { createPost } from '@/actions/blog';
+import { createPost } from '@/app/actions/blog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function NewPostPage() {
     const [state, formAction] = useActionState(createPost, { error: null, success: false });
     const router = useRouter();
 
-    if (state.success) {
-        router.push('/blog');
-    }
+    useEffect(() => {
+        if (state.success) {
+            router.push('/blog');
+        }
+    }, [state.success, router]);
 
     return (
         <div className="container mx-auto py-10">

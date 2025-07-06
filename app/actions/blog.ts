@@ -3,9 +3,9 @@
 import { db } from '@/lib/db/drizzle';
 import { posts, users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
-// import { getUser } from '@/lib/auth';
 import { getUser } from '@/lib/db/queries';
 import { z } from 'zod';
+import { error } from 'console';
 
 // Validation schema for blog posts
 const postSchema = z.object({
@@ -14,19 +14,35 @@ const postSchema = z.object({
 });
 
 // Create a blog post
-export async function createPost(formData: FormData) {
-    const user = await getUser();
-    if (!user) {
-        return { error: 'Unauthorized' };
+export async function createPost(_prevState: any, formData: FormData) {
+    // const user = await getUser();
+    // if (!user) {
+    //     return { error: 'Unauthorized' };
+    // }
+    let user;
+    try {
+        user = await getUser();
+    } catch (err) {
+        console.error('getUser() failed', err);
+        return { error: 'Unauthorized', success: false };
     }
 
+    if (!user) {
+        return { error: 'Unauthorized', success: false };
+    }
+
+    // const validated = postSchema.safeParse({
+    //     title: formData.get('title'),
+    //     content: formData.get('content'),
+    // });
     const validated = postSchema.safeParse({
-        title: formData.get('title'),
-        content: formData.get('content'),
+        title: formData.get('title')?.toString() ?? '',
+        content: formData.get('content')?.toString() ?? '',
     });
 
     if (!validated.success) {
-        return { error: validated.error.errors[0].message };
+        console.warn('Validation failed:', validated.error);
+        return { error: validated.error.errors[0].message, success: false };
     }
 
     try {
@@ -37,9 +53,10 @@ export async function createPost(formData: FormData) {
             createdAt: new Date(),
             updatedAt: new Date(),
         });
-        return { success: true };
+        return { success: true, error: null };
     } catch (error) {
-        return { error: 'Failed to create post' };
+        console.error('DB insert error:', error);
+        return { error: 'Failed to create post', success: false };
     }
 }
 

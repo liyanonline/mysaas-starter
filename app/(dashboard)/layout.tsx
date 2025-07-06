@@ -98,6 +98,11 @@ function UserMenu() {
 //           <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
 //         </Link>
 
+//         <Link href="/blog">Blog</Link>
+
+
+//         {/* 
+
 //         <nav className="flex space-x-4">
 //           <Link href="/blog">Blog</Link>
 //           {user ? (
@@ -117,7 +122,7 @@ function UserMenu() {
 //               </Link>
 //             </>
 //           )}
-//         </nav>
+//         </nav> */}
 
 //         <a className="text-sm font-medium hover:underline underline-offset-4" href="#features">
 //           Features
@@ -142,7 +147,7 @@ function UserMenu() {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <section className="flex flex-col min-h-screen">
-      <Header />
+      {/* <Header /> */}
       {children}
     </section>
   );
