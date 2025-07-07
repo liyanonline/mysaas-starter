@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 interface Post {
     id: number;
     title: string;
-    authorEmail: string;
+    authorEmail: string | null;
     content: string;
 }
 

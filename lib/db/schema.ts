@@ -25,6 +25,7 @@ export const users = pgTable('users', {
 export const posts = pgTable('posts', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
+  slug: varchar('slug', { length: 200 }).notNull(),
   content: text('content').notNull(),
   authorId: integer('author_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').notNull().defaultNow(),

@@ -12,6 +12,13 @@ const postSchema = z.object({
     title: z.string().min(1, 'Title is required'),
     content: z.string().min(1, 'Content is required'),
 });
+function slugify(str: string): string {
+    return str
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-') // replace non-alphanum with dashes
+        .replace(/^-+|-+$/g, '');    // remove leading/trailing dashes
+}
 
 // Create a blog post
 export async function createPost(_prevState: any, formData: FormData) {
@@ -46,8 +53,21 @@ export async function createPost(_prevState: any, formData: FormData) {
     }
 
     try {
+        // const slug = slugify(validated.data.title);
+        let baseSlug = slugify(validated.data.title);
+        let slug = baseSlug;
+        let count = 1;
+
+        while (
+            (await db.select().from(posts).where(eq(posts.slug, slug)).limit(1)).length > 0
+        ) {
+            slug = `${baseSlug}-${count++}`;
+        }
+
+
         await db.insert(posts).values({
             title: validated.data.title,
+            slug,
             content: validated.data.content,
             authorId: user.id,
             createdAt: new Date(),
@@ -141,7 +161,7 @@ export async function updatePost(
 
     await db.update(posts)
         .set({ title, content, updatedAt: new Date() })
-        .where(posts.id.eq(postId));
+        .where(eq(posts.id, postId));
 
     return { success: true, error: null };
 }

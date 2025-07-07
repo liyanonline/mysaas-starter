@@ -113,7 +113,6 @@ async function seed() {
       slug: 'my-first-blog-post',
       content: 'This is the content of my first blog post!',
       authorId: user.id,
-      publishedAt: new Date(),
       updatedAt: new Date(),
     },
   ]);
