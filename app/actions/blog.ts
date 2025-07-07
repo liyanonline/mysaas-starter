@@ -92,40 +92,60 @@ export async function getPostById(id: number) {
 }
 
 // Update a blog post
-export async function updatePost(id: number, formData: FormData) {
-    const user = await getUser();
-    if (!user) {
-        return { error: 'Unauthorized' };
+// export async function updatePost(id: number, formData: FormData) {
+//     const user = await getUser();
+//     if (!user) {
+//         return { error: 'Unauthorized' };
+//     }
+
+//     const validated = postSchema.safeParse({
+//         title: formData.get('title'),
+//         content: formData.get('content'),
+//     });
+
+//     if (!validated.success) {
+//         return { error: validated.error.errors[0].message };
+//     }
+
+//     const post = await db.select().from(posts).where(eq(posts.id, id)).limit(1);
+//     if (post[0].authorId !== user.id) {
+//         return { error: 'Forbidden: You can only edit your own posts' };
+//     }
+
+//     try {
+//         await db
+//             .update(posts)
+//             .set({
+//                 title: validated.data.title,
+//                 content: validated.data.content,
+//                 updatedAt: new Date(),
+//             })
+//             .where(eq(posts.id, id));
+//         return { success: true };
+//     } catch (error) {
+//         return { error: 'Failed to update post' };
+//     }
+// }
+
+export async function updatePost(
+    postId: number,
+    prevState: { success: boolean; error: string | null },
+    formData: FormData
+): Promise<{ success: boolean; error: string | null }> {
+    const title = formData.get('title')?.toString() || '';
+    const content = formData.get('content')?.toString() || '';
+
+    if (!title || !content) {
+        return { success: false, error: 'Title and content are required.' };
     }
 
-    const validated = postSchema.safeParse({
-        title: formData.get('title'),
-        content: formData.get('content'),
-    });
+    await db.update(posts)
+        .set({ title, content, updatedAt: new Date() })
+        .where(posts.id.eq(postId));
 
-    if (!validated.success) {
-        return { error: validated.error.errors[0].message };
-    }
-
-    const post = await db.select().from(posts).where(eq(posts.id, id)).limit(1);
-    if (post[0].authorId !== user.id) {
-        return { error: 'Forbidden: You can only edit your own posts' };
-    }
-
-    try {
-        await db
-            .update(posts)
-            .set({
-                title: validated.data.title,
-                content: validated.data.content,
-                updatedAt: new Date(),
-            })
-            .where(eq(posts.id, id));
-        return { success: true };
-    } catch (error) {
-        return { error: 'Failed to update post' };
-    }
+    return { success: true, error: null };
 }
+
 
 // Delete a blog post
 export async function deletePost(id: number) {
