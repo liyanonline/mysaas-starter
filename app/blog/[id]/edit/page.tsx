@@ -1,8 +1,8 @@
 'use client';
 
 import { useActionState } from 'react';
-import { updatePost } from '@/actions/blog';
-import { getPostById } from '@/actions/blog';
+import { updatePost } from '@/app/actions/blog';
+import { getPostById } from '@/app/actions/blog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
