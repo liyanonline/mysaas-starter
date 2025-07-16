@@ -1,1 +1,0 @@
-ALTER TABLE "posts" ADD COLUMN "slug" varchar(200) NOT NULL;

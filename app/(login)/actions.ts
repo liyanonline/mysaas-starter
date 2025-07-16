@@ -221,20 +221,10 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   redirect('/dashboard');
 });
 
-// export async function signOut() {
-//   const user = (await getUser()) as User;
-//   const userWithTeam = await getUserWithTeam(user.id);
-//   await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
-//   (await cookies()).delete('session');
-// }
 export async function signOut() {
-  const user = await getUser();
-
-  if (user) {
-    const userWithTeam = await getUserWithTeam(user.id);
-    await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
-  }
-
+  const user = (await getUser()) as User;
+  const userWithTeam = await getUserWithTeam(user.id);
+  await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
   (await cookies()).delete('session');
 }
 

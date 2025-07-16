@@ -1,9 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-// import { use, useState, Suspense } from 'react';
-import React, { useEffect, useState, Suspense } from 'react';
-
+import { use, useState, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { CircleIcon, Home, LogOut } from 'lucide-react';
 import {
@@ -17,20 +15,13 @@ import { signOut } from '@/app/(login)/actions';
 import { useRouter } from 'next/navigation';
 import { User } from '@/lib/db/schema';
 import useSWR from 'swr';
-import { Header } from '@/components/Header';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: user } = useSWR<User>('/api/user', fetcher);
-
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => setIsMounted(true), []);
-
   const router = useRouter();
-
-  if (!isMounted) return null; // wait for hydration
 
   async function handleSignOut() {
     await signOut();
@@ -87,68 +78,69 @@ function UserMenu() {
   );
 }
 
+function Header() {
+  return (
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <Link href="/" className="flex items-center">
+          <CircleIcon className="h-6 w-6 text-orange-500" />
+          <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
+        </Link>
+        <nav className="flex space-x-6 items-center text-sm font-medium">
+          <Link href="/blog" className="hover:underline">Blog</Link>
+          <Link href="/case" className="hover:underline">Case</Link>
+          <a href="#features" className="hover:underline">Features</a>
+          <a href="#testimonials" className="hover:underline">Testimonials</a>
+          <Link href="/pricing" className="hover:underline">Pricing</Link>
+        </nav>
+        <div className="flex items-center space-x-4">
+          <Suspense fallback={<div className="h-9" />}>
+            <UserMenu />
+          </Suspense>
+        </div>
+      </div>
+    </header>
+  );
+}
 
-// function Header() {
-//   const { data: user } = useSWR<User>('/api/user', fetcher);
-//   return (
-//     <header className="border-b border-gray-200">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-//         <Link href="/" className="flex items-center">
-//           <CircleIcon className="h-6 w-6 text-orange-500" />
-//           <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
-//         </Link>
+function Footer() {
+  return (
+    <footer className="border-t border-gray-200 mt-16 sticky bottom-0 bg-white z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
+        <div className="flex items-center space-x-2">
+          <CircleIcon className="h-5 w-5 text-orange-500" />
+          <span className="font-medium">© {new Date().getFullYear()} ACME Inc.</span>
+        </div>
 
-//         <Link href="/blog">Blog</Link>
-
-
-//         {/* 
-
-//         <nav className="flex space-x-4">
-//           <Link href="/blog">Blog</Link>
-//           {user ? (
-//             <>
-//               <Link href="/dashboard">Dashboard</Link>
-//               <form action="/api/auth/sign-out" method="POST">
-//                 <Button variant="outline">Sign Out</Button>
-//               </form>
-//             </>
-//           ) : (
-//             <>
-//               <Link href="/sign-in">
-//                 <Button variant="outline">Sign In</Button>
-//               </Link>
-//               <Link href="/sign-up">
-//                 <Button>Sign Up</Button>
-//               </Link>
-//             </>
-//           )}
-//         </nav> */}
-
-//         <a className="text-sm font-medium hover:underline underline-offset-4" href="#features">
-//           Features
-//         </a>
-//         <a className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
-//           Testimonials
-//         </a>
-//         <a className="text-sm font-medium hover:underline underline-offset-4" href="/pricing">
-//           Pricing
-//         </a>
-
-//         <div className="flex items-center space-x-4">
-//           <Suspense fallback={<div className="h-9" />}>
-//             <UserMenu />
-//           </Suspense>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
+        <nav className="flex items-center space-x-6">
+          <Link href="/blog" className="hover:underline underline-offset-4">
+            Blog
+          </Link>
+          <a href="#features" className="hover:underline underline-offset-4">
+            Features
+          </a>
+          <a href="#testimonials" className="hover:underline underline-offset-4">
+            Testimonials
+          </a>
+          <Link href="/pricing" className="hover:underline underline-offset-4">
+            Pricing
+          </Link>
+          <Link href="/terms" className="hover:underline underline-offset-4">
+            Terms
+          </Link>
+        </nav>
+      </div>
+    </footer>
+  )
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+
   return (
     <section className="flex flex-col min-h-screen">
-      {/* <Header /> */}
+      <Header />
       {children}
+      <Footer />
     </section>
   );
 }
