@@ -1,7 +1,8 @@
 'use client';
-
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { use, useState, Suspense } from 'react';
+// import Header from "@/components/Header"
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { CircleIcon, Home, LogOut } from 'lucide-react';
 import {
@@ -12,7 +13,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { signOut } from '@/app/(login)/actions';
-import { useRouter } from 'next/navigation';
 import { User } from '@/lib/db/schema';
 import useSWR from 'swr';
 
@@ -87,10 +87,11 @@ function Header() {
           <span className="ml-2 text-xl font-semibold text-gray-900">ACME</span>
         </Link>
         <nav className="flex space-x-6 items-center text-sm font-medium">
+          <a href="/#features" className="hover:underline">Features</a>
+          <a href="/#testimonials" className="hover:underline">Testimonials</a>
           <Link href="/blog" className="hover:underline">Blog</Link>
           <Link href="/case" className="hover:underline">Case</Link>
-          <a href="#features" className="hover:underline">Features</a>
-          <a href="#testimonials" className="hover:underline">Testimonials</a>
+
           <Link href="/pricing" className="hover:underline">Pricing</Link>
         </nav>
         <div className="flex items-center space-x-4">
