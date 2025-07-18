@@ -1,4 +1,4 @@
-import { deletePost } from '@/server/actions/case';
+import { deleteCase } from '@/server/actions/case';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
-    const result = await deletePost(Number(id));
+    const result = await deleteCase(Number(id));
     if (result.error) {
         return NextResponse.json({ error: result.error }, { status: 400 });
     }

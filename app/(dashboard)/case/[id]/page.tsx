@@ -9,26 +9,26 @@ import Link from 'next/link';
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params; // Resolve the Promise
     const user = await getUser();
-    const post = await getCaseById(parseInt(id));
+    const caseItem = await getCaseById(parseInt(id));
 
-    if (!post) {
+    if (!caseItem) {
         return <div className="container mx-auto py-10">Post not found</div>;
     }
 
     return (
         <div className="container mx-auto py-10">
-            <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-            <p className="text-gray-600 mb-4">By {post.authorEmail}</p>
-            <p className="mb-6">{post.content}</p>
+            <h1 className="text-3xl font-bold mb-4">{caseItem.title}</h1>
+            <p className="text-gray-600 mb-4">By {caseItem.authorEmail}</p>
+            <p className="mb-6">{caseItem.description}</p>
 
-            {user?.id === post.authorId && (
+            {user?.id === caseItem.authorId && (
                 <div className="space-x-4">
-                    <Link href={`/case/${post.id}/edit`}>
-                        <Button>Edit Post</Button>
+                    <Link href={`/case/${caseItem.id}/edit`}>
+                        <Button>Edit Case</Button>
                     </Link>
-                    <form action={`/case/${post.id}/delete`} method="POST">
+                    <form action={`/case/${caseItem.id}/delete`} method="POST">
                         <Button variant="destructive" type="submit">
-                            Delete Post
+                            Delete Case
                         </Button>
                     </form>
                 </div>

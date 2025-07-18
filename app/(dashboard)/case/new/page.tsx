@@ -1,12 +1,12 @@
 import { getUser } from '@/lib/db/queries';
 import { redirect } from 'next/navigation';
-import NewPostForm from './form'; // 👈 client component
+import NewCaseForm from './NewCaseForm'; // 👈 client component
 
-export default async function NewPostPage() {
+export default async function NewCasePage() {
     const user = await getUser();
     if (!user) redirect('/sign-in');
-
-    return <NewPostForm />;
+    console.log('NewCaseForm type:', typeof NewCaseForm); // Debug log
+    return <NewCaseForm />;
 }
 
 // import { createPost } from '@/server/actions/case';
