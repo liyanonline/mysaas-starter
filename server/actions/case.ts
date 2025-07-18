@@ -21,6 +21,14 @@ function slugify(str: string): string {
         .replace(/^-+|-+$/g, '');    // remove leading/trailing dashes
 }
 
+function isContentEmpty(html: string): boolean {
+    const text = html
+        .replace(/<p><br><\/p>/g, '') // Remove empty <p><br></p>
+        .replace(/<[^>]*>/g, '')      // Remove all HTML tags
+        .trim();
+    return text.length === 0;
+}
+
 // Create a case
 export async function createCase(_prevState: any, formData: FormData) {
     let user;

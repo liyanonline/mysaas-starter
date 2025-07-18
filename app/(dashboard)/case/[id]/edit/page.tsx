@@ -12,7 +12,8 @@ interface CaseItem {
     authorEmail: string | null;
 }
 
-export default async function EditCasePage({ params }: { params: { id: string } }) {
+export default async function EditCasePage({ params }: { params: Promise<{ id: string }> }) {
+    // export default async function EditCasePage({ params }: { params: { id: string } }) {
     const { id } = await params;
     const caseItem = await getCaseById(Number(id));
 
@@ -27,7 +28,9 @@ export default async function EditCasePage({ params }: { params: { id: string } 
                     <h1 className="text-3xl font-bold text-gray-900">Edit Case</h1> {/* Updated to "Edit Case" */}
                 </div>
                 <div className="px-6 py-6">
-                    <EditCaseForm caseItem={caseItem} />
+                    {/* <EditCaseForm caseItem={caseItem} /> */}
+                    <EditCaseForm caseItem={{ ...caseItem, description: caseItem.description ?? '' }} />
+
                 </div>
             </div>
         </div>

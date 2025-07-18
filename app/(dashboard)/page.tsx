@@ -21,7 +21,8 @@ export const revalidate = 3600 // Revalidate every hour
 
 async function getStripeProducts(): Promise<StripeProduct[]> {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2024-06-20'
+    // apiVersion: '2024-06-20'
+    apiVersion: '2025-03-31.basil',
   });
 
   const products = await stripe.products.list({

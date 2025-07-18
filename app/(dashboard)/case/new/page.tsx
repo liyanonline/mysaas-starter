@@ -1,11 +1,13 @@
 import { getUser } from '@/lib/db/queries';
 import { redirect } from 'next/navigation';
 import NewCaseForm from './NewCaseForm'; // 👈 client component
+import Tiptap from '../../../../components/Tiptap'; // Adjust the import path as needed, e.g., '
+
 
 export default async function NewCasePage() {
     const user = await getUser();
     if (!user) redirect('/sign-in');
-    console.log('NewCaseForm type:', typeof NewCaseForm); // Debug log
+    // console.log('NewCaseForm type:', typeof NewCaseForm); // Debug log
     return <NewCaseForm />;
 }
 
