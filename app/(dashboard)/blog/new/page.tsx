@@ -1,6 +1,6 @@
 import { getUser } from '@/lib/db/queries';
 import { redirect } from 'next/navigation';
-import NewPostForm from './form'; // 👈 client component
+import NewPostForm from './NewPostForm'; // 👈 client component
 
 export default async function NewPostPage() {
     const user = await getUser();

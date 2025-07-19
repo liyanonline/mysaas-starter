@@ -1,12 +1,11 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { updatePost } from '@/server/actions/blog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import RichTextEditor from '@/components/ui/RichTextEditor';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function EditPostForm({
     post,
@@ -25,7 +24,9 @@ export default function EditPostForm({
         success: false,
     });
 
-    // ✅ redirect safely after successful update
+    const [editorContent, setEditorContent] = useState(post.content);
+
+    // Redirect after successful update
     useEffect(() => {
         if (state.success) {
             router.push(`/blog/${post.id}`);
@@ -43,13 +44,18 @@ export default function EditPostForm({
                 </div>
                 <div>
                     <label htmlFor="content" className="block text-sm font-medium">Content</label>
-                    <Textarea id="content" name="content" defaultValue={post.content} required rows={10} />
+                    <RichTextEditor
+                        content={post.content}
+                        onChange={(html) => setEditorContent(html)}
+                    />
+                    <input type="hidden" name="content" value={editorContent} />
                 </div>
                 <Button type="submit">Update Post</Button>
             </form>
         </div>
     );
 }
+
 
 
 // 'use client';

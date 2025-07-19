@@ -1,12 +1,13 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { createPost } from '@/server/actions/blog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useEffect } from 'react';
+import RichTextEditor from '@/components/ui/RichTextEditor';
+import Tiptap from '../../../../components/Tiptap'; // Adjust the import path as needed, e.g., '
 
 export default function NewPostForm() {
     const [state, formAction] = useActionState(createPost, {
@@ -15,8 +16,8 @@ export default function NewPostForm() {
     });
     const router = useRouter();
     const searchParams = useSearchParams();
-
     const errorParam = searchParams.get('error');
+    const [editorContent, setEditorContent] = useState('');
 
     useEffect(() => {
         if (state.success) {
@@ -45,8 +46,17 @@ export default function NewPostForm() {
                 </div>
                 <div>
                     <label htmlFor="content" className="block text-sm font-medium">Content</label>
-                    <Textarea id="content" name="content" required rows={10} />
+                    <RichTextEditor
+                        content=""
+                        onChange={(html) => setEditorContent(html)}
+                    />
+                    {/* Hidden input to send description */}
+                    <input type="hidden" name="content" value={editorContent} />
                 </div>
+                {/* <div>
+                    <label htmlFor="content" className="block text-sm font-medium">Content</label>
+                    <Textarea id="content" name="content" required rows={10} />
+                </div> */}
                 <Button type="submit">Create Post</Button>
             </form>
         </div>

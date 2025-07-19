@@ -38,6 +38,7 @@ export default function RichTextEditor({ content = '', onChange }: RichTextEdito
         immediatelyRender: false,
     });
 
+
     const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setIsDragging(false);

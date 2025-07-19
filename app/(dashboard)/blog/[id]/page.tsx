@@ -19,8 +19,12 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
         <div className="container mx-auto py-10">
             <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
             <p className="text-gray-600 mb-4">By {post.authorEmail}</p>
-            <p className="mb-6">{post.content}</p>
-
+            {/* <p className="mb-6">{post.content}</p> */}
+            <div
+                className="prose max-w-none"
+                // dangerouslySetInnerHTML={{ __html: caseItem.description }}
+                dangerouslySetInnerHTML={{ __html: post.content ?? '' }}
+            ></div>
             {user?.id === post.authorId && (
                 <div className="space-x-4">
                     <Link href={`/blog/${post.id}/edit`}>

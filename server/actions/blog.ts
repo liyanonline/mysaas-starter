@@ -13,12 +13,21 @@ const postSchema = z.object({
     title: z.string().min(1, 'Title is required'),
     content: z.string().min(1, 'Content is required'),
 });
+
 function slugify(str: string): string {
     return str
         .toLowerCase()
         .trim()
         .replace(/[^a-z0-9]+/g, '-') // replace non-alphanum with dashes
         .replace(/^-+|-+$/g, '');    // remove leading/trailing dashes
+}
+
+function isContentEmpty(html: string): boolean {
+    const text = html
+        .replace(/<p><br><\/p>/g, '') // Remove empty <p><br></p>
+        .replace(/<[^>]*>/g, '')      // Remove all HTML tags
+        .trim();
+    return text.length === 0;
 }
 
 // Create a blog post

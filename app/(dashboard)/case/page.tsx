@@ -2,6 +2,7 @@ import { getCases } from '@/server/actions/case';
 import { getUser } from '@/lib/db/queries';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { sanitizeHTML } from '@/utils/sanitize';
 
 // export default async function casePage() {
 //     const posts = await getPosts();
@@ -22,13 +23,29 @@ export default async function casePage() {
                 </Link>
             )}
             <div className="mt-6 space-y-4">
-                {cases.length === 0 && <p>No posts yet.</p>}
-                {cases.map((post) => (
-                    <div key={post.id} className="border p-4 rounded-lg">
-                        <h2 className="text-xl font-semibold">{post.title}</h2>
-                        <p className="text-gray-600">By {post.authorEmail}</p>
+                {cases.length === 0 && <p>No case yet.</p>}
+                {cases.map((caseItem) => (
+                    <div key={caseItem.id} className="border p-4 rounded-lg">
+                        <h2 className="text-xl font-semibold">{caseItem.title}</h2>
+                        <p className="text-gray-600">By {caseItem.authorEmail}</p>
                         {/* <p className="mt-2">{post.content.substring(0, 100)}...</p> */}
-                        <Link href={`/case/${post.id}`}>
+
+                        {/* <div
+                            className="mt-2 prose"
+                            dangerouslySetInnerHTML={{ __html: sanitizeHTML(caseItem.description.substring(0, 100)) }}
+                        /> */}
+
+                        {caseItem.description && (
+                            <div
+                                className="mt-2 prose"
+                                dangerouslySetInnerHTML={{
+                                    __html: sanitizeHTML(caseItem.description.substring(0, 100))
+                                }}
+                            />
+                        )}
+
+
+                        <Link href={`/case/${caseItem.id}`}>
                             <Button variant="link">Read More</Button>
                         </Link>
                     </div>
