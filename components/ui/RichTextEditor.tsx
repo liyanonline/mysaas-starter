@@ -89,10 +89,21 @@ export default function RichTextEditor({ content = '', onChange }: RichTextEdito
     useEffect(() => {
         if (!editor) return;
         const el = document.querySelector('.tiptap-editor');
-        el?.addEventListener('paste', handlePaste as EventListener);
+        if (!el) return;
 
-        return () => el?.removeEventListener('paste', handlePaste as EventListener);
+        const pasteHandler = (evt: Event) => handlePaste(evt as ClipboardEvent);
+        el.addEventListener('paste', pasteHandler);
+
+        return () => el.removeEventListener('paste', pasteHandler);
     }, [editor, handlePaste]);
+
+    // useEffect(() => {
+    //     if (!editor) return;
+    //     const el = document.querySelector('.tiptap-editor');
+    //     el?.addEventListener('paste', handlePaste as EventListener);
+
+    //     return () => el?.removeEventListener('paste', handlePaste as EventListener);
+    // }, [editor, handlePaste]);
 
     if (!editor) return null;
 
